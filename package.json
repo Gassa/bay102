@@ -1,13 +1,25 @@
 {
-    "name": "bay102",
-    "version": "1.0.0",
-    "description": "bay102",
-    "scripts": {
-        "frontend": "cd frontend && npm start",
-        "backend": "cd backend && node dist/index.js",
-        "dev": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run frontend\"",
-        "heroku-postbuild": "cd frontend && npm install && npm run build"    
-    },
-    "author": "Gassa Yan",
-    "license": "ISC"
+  "name": "bay102",
+  "version": "1.0.0",
+  "description": "bay102",
+  "main": "index.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q backend/dist/index.js\"",
+    "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build"
+  },
+  "author": "Gassa Yan",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.35",
+    "concurrently": "^7.2.0",
+    "nodemon": "^2.0.16",
+    "typescript": "^4.6.4"
+  }
 }
