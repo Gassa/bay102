@@ -4,9 +4,10 @@
     "description": "bay102",
     "scripts": {
         "frontend": "cd frontend && npm start",
-        "backend": "cd backend && nodemon dist/app.js",
+        "backend": "cd backend && node dist/index.js",
         "dev": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run frontend\"",
         "heroku-postbuild": "cd frontend && npm install && npm run build"    
     },
-    "author": "Gassa Yan"
+    "author": "Gassa Yan",
+    "license": "ISC"
 }
