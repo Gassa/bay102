@@ -18,7 +18,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <p>{!data ? data : "loading" }</p>
+        <p>{!data ? "loading" : data}</p>
       </header>
     </div>
   );
