@@ -4,12 +4,12 @@ import './App.css';
 
 function App() {
 
-  const [data, setData] = React.useState(null)
-  React.useEffect(() => {
-    fetch("/backend")
-      .then(res => res.json())
-      .then((data) => setData(data.message))
-  })
+  // const [data, setData] = React.useState(null)
+  // React.useEffect(() => {
+  //   fetch("/backend")
+  //     .then(res => res.json())
+  //     .then((data) => setData(data.message))
+  // })
 
   return (
     <div className="App">
@@ -18,7 +18,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <p>{!data ? "Loading..." : data}</p>
+        <p>pure static loading page!!!</p>
       </header>
     </div>
   );

@@ -38,7 +38,7 @@ app.get('/backend', (req, res) => {
     res.json({ message: "Hello from server!" });
 });
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/build/index.html'));
+    res.sendFile(path.join(__dirname + '/frontend/build/index.html'));
 });
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
