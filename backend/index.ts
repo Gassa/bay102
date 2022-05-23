@@ -8,7 +8,9 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
-app.use(express.static(path.join(__dirname, '../frontend/build')))
+console.log(__dirname)
+
+app.use(express.static(path.join(__dirname, '../../frontend/build')))
 
 app.get('/backend', (req: Request, res: Response) => {
   // res.send('Express + TypeScript Server');
@@ -16,7 +18,7 @@ app.get('/backend', (req: Request, res: Response) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/frontend/build/index.html'))
+  res.sendFile(path.join(__dirname + '../../frontend/build/index.html'))
 })
 
 app.listen(port, () => {

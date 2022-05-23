@@ -32,13 +32,14 @@ const path = __importStar(require("path"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
-app.use(express_1.default.static(path.join(__dirname, '../frontend/build')));
+console.log(__dirname);
+app.use(express_1.default.static(path.join(__dirname, '../../frontend/build')));
 app.get('/backend', (req, res) => {
     // res.send('Express + TypeScript Server');
     res.json({ message: "Hello from server!" });
 });
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/frontend/build/index.html'));
+    res.sendFile(path.join(__dirname + '../../frontend/build/index.html'));
 });
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
