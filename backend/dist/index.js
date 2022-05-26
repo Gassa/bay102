@@ -29,18 +29,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path = __importStar(require("path"));
+const routers_1 = require("./routers");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 console.log(__dirname);
 app.use(express_1.default.static(path.join(__dirname, '../../frontend/build')));
-app.get('/backend', (req, res) => {
-    // res.send('Express + TypeScript Server');
-    res.json({ message: "Hello from server!" });
-});
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
+(0, routers_1.mountRouters)(app);
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '../../frontend/build/index.html'));
 });
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+});
+process.on('SIGTERM', () => {
+    console.log(`terimating server on ${port}`);
+    server.close();
 });

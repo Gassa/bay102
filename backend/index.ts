@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import * as path from 'path';
-
+import { mountRouters } from './routers'
 
 dotenv.config();
 
@@ -12,15 +12,20 @@ console.log(__dirname)
 
 app.use(express.static(path.join(__dirname, '../../frontend/build')))
 
-app.get('/backend', (req: Request, res: Response) => {
-  // res.send('Express + TypeScript Server');
-  res.json({ message: "Hello from server!" });
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
+
+mountRouters(app);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '../../frontend/build/index.html'))
 })
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });
+
+process.on('SIGTERM', () => {
+  console.log(`terimating server on ${port}`);
+  server.close();
+})

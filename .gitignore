@@ -12,8 +12,8 @@
 /coverage
 
 # production
-/build
-
+build
+backend/dist
 # misc
 .DS_Store
 .env.local
