@@ -18,7 +18,10 @@ const config = {
   idleTimeoutMillis: 30*1000, // 30 seconds for an idle connection to be closed
   max: 20, // the max number of connections in connection pool
   allowExitIdle: true,
-  ssl: true
+  // https://security.stackexchange.com/questions/229282/is-it-safe-to-set-rejectunauthorized-to-false-when-using-herokus-postgres-datab
+  ssl: {
+    rejectUnauthorized: false,
+  } 
 }
 
 const close = async() => {
