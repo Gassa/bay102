@@ -22,7 +22,8 @@ const listRooms = async (req: express.Request, res: express.Response) => {
       res.send(rooms);
     })
     .catch(error => {
-      res.sendStatus(404).send("no rooms found");
+      res.status(404);
+      res.send(error);
     });
 }
 
@@ -34,8 +35,9 @@ const addRoom = async (req: express.Request, res: express.Response) => {
       if (rst == DONE) {
         res.send("DONE")
       } else {
+        console.log(rst);
         res.status(406)
-        res.render("failed to create room.")
+        res.send("failed to create room.")
       }
      });
 }

@@ -22,7 +22,8 @@ const listRooms = async (req: express.Request, res: express.Response) => {
     })
     .catch(error => {
       console.error(error.message);
-      res.sendStatus(404).send("no players found");
+      res.status(404)
+      res.send("no players found");
     });
 }
 
