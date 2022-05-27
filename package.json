@@ -8,7 +8,7 @@
     "start": "node backend/dist/index.js",
     "dev": "concurrently --kill-others \"npx tsc --watch\" \"nodemon -w backend/dist/index.js\"",
     "hot-reload": "nodemon --watch \"backend/**\" --ext \"ts,json\" --ignore \"backend/**/*.spec.ts\" --exec \"ts-node backend/index.ts\"",
-    "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build",
+    "heroku-postbuild": "npx tsc && cd frontend && npm install --only=dev && npm install && npm run build",
     "test": "jest --detectOpenHandles --forceExit"
   },
   "author": "Gassa Yan",
