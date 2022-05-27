@@ -17,7 +17,8 @@ const config = {
   port: dbHostPort,
   idleTimeoutMillis: 30*1000, // 30 seconds for an idle connection to be closed
   max: 20, // the max number of connections in connection pool
-  allowExitIdle: true
+  allowExitIdle: true,
+  ssl: true
 }
 
 const close = async() => {
