@@ -56,6 +56,7 @@ const addPlayers = async (req: express.Request, res: express.Response) => {
 };
 
 const updateBuyIn = async (req: express.Request, res: express.Response) => {
+  console.log(req.body);
   const { roomId, playerId, updatedValue } =
     req.body as unknown as updatePlayerRecordRequest;
   db.updateBuyIn(roomId, playerId, updatedValue)
@@ -120,8 +121,8 @@ const updateChipsAmount = async (
 
 PlayerRecordsRouter.get("/", listPlayerRecordsByRoomId);
 PlayerRecordsRouter.post("/add", addPlayers);
-PlayerRecordsRouter.post("/update/buyin", updateBuyIn);
-PlayerRecordsRouter.post("/update/cashout", updateCashOut);
-PlayerRecordsRouter.post("/update/chips", updateChipsAmount);
+PlayerRecordsRouter.post("/update/buy_in", updateBuyIn);
+PlayerRecordsRouter.post("/update/cash_out", updateCashOut);
+PlayerRecordsRouter.post("/update/chips_amount", updateChipsAmount);
 
 export default PlayerRecordsRouter;

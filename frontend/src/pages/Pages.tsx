@@ -5,16 +5,15 @@ import Layout from "./Layout";
 
 const Home = lazy(() => import("./Home"))
 const Room = lazy(() => import("./Room"))
-const Event = lazy(() => import("./Event"))
-
+const Result = lazy(() => import("./Result"))
 export function Pages() {
   return (
     <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="room" element={<Room />} />
-          <Route path="event" element={<Event />} />
+          <Route path="/room/:roomId" element={<Room />} />
+          <Route path="/result/:roomId" element={<Result />} /> 
         </Route>
       </Routes>
     </Suspense>

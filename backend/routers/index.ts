@@ -4,8 +4,8 @@ import player from './player';
 import record from './records'
 
 export const mountRouters = (app: Express) => {
-  app.use('/rooms', room);
-  app.use('/players', player);
-  app.use('/records', record);
+  app.use('/backend/rooms', room);
+  app.use('/backend/players', player);
+  app.use('/backend/records', record);
 }
 
