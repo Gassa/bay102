@@ -22,7 +22,7 @@ export default function Home() {
     <List>
       {rooms.map((room) => (
         <React.Fragment key={room["id"]}>
-          <ListItemButton component="a" href={`room/${room['id']}`}>
+          <ListItemButton component="a" href={`/room/${room['id']}`}>
             <ListItemText primary={room["name"]} secondary={room["created_at"]}/>
           </ListItemButton>
         </React.Fragment>
