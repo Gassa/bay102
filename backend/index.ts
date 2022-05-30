@@ -8,9 +8,7 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
-console.log(__dirname)
-
-app.use(express.static(path.join(__dirname, '../../frontend/build')))
+app.use(express.static(path.join(__dirname + './../../frontend/build')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
@@ -18,7 +16,7 @@ app.use(express.urlencoded({ extended: true}));
 mountRouters(app);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '../../frontend/build/index.html'))
+  res.sendFile(path.join(__dirname + './../../frontend/build/index.html'))
 })
 
 const server = app.listen(port, () => {

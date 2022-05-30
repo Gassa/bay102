@@ -34,12 +34,13 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 console.log(__dirname);
-app.use(express_1.default.static(path.join(__dirname, '../../frontend/build')));
+console.log(path.join(__dirname + '../../frontend/build'));
+app.use(express_1.default.static(path.join(__dirname + './../../frontend/build')));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 (0, routers_1.mountRouters)(app);
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '../../frontend/build/index.html'));
+    res.sendFile(path.join(__dirname + './../../frontend/build/index.html'));
 });
 const server = app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
