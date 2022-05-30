@@ -42,10 +42,11 @@ export default function Room() {
   const handleBuyIn = (roomId: number, playerId: number, field: string) => {
     console.log(`room: ${roomId}, player: ${playerId} - ${field}`);
     const record = records![playerId];
-    const updatedRecord = Object.assign(record, { [field]: (record![field] as number) + 1 })
+    const updatedValue = (record![field] as number) + 1
+    const updatedRecord = Object.assign(record, { [field]: updatedValue })
     const updateRecords = Object.assign(records, { [record.player_id]: updatedRecord })
     axios.post(`/backend/records/update/${field}`,
-      { "roomId": roomId, "playerId": playerId, "updatedValue": (record![field] as number) + 1 }
+      { "roomId": roomId, "playerId": playerId, "updatedValue": updatedValue }
     ).then(res => setRecords({...updateRecords}))
     .catch(rejected => {
       console.log(rejected);

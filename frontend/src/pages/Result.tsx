@@ -28,7 +28,11 @@ interface Record {
 export default function Result() {
   const { roomId } = useParams();
   const [records, setRecords] = React.useState<PlayerRecordMap>({});
-  const calculateBalance = (buyIn: number, cashOut: number, amount: number) => (cashOut - buyIn) * 500 + amount
+  const calculateBalance = (cashOut: number, buyIn: number, amount: number) => { 
+    const b = cashOut - buyIn;
+    console.log(b);
+    return (b * 500) + amount; 
+  }
 
   React.useEffect(() => {
     axios('/backend/players').then(res => {
