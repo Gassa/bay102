@@ -2,11 +2,12 @@ import React from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import List from '@mui/material/List';
+import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import { computeTransfer } from '../utils/helper'
 
-
-type PlayerRecord = { [key: string]: string | number }
+export type PlayerRecord = { [key: string]: string | number }
 
 
 type PlayerRecordMap = { [key: number]: PlayerRecord }
@@ -30,8 +31,13 @@ export default function Result() {
   const [records, setRecords] = React.useState<PlayerRecordMap>({});
   const calculateBalance = (cashOut: number, buyIn: number, amount: number) => { 
     const b = cashOut - buyIn;
-    console.log(b);
     return (b * 500) + amount; 
+  }
+
+  const checkBalance = () => {
+    const totalWin = Object.values(records).filter(r => r.balance > 0).map(r => r.balance as number).reduce((acc, cur) => { return acc + cur}, 0)
+    const totalLost = Object.values(records).filter(r => r.balance < 0).map(r => r.balance as number).reduce((acc, cur) => { return acc + cur}, 0)
+    return { totalWin: totalWin, totalLost: totalLost * (-1)};
   }
 
   React.useEffect(() => {
@@ -57,6 +63,8 @@ export default function Result() {
     })
   }, [roomId]);
 
+  const { totalWin, totalLost } = checkBalance();
+  const transfer = computeTransfer(Object.values(records));
   return (
     <>
     <List>
@@ -69,6 +77,17 @@ export default function Result() {
             />
           </ListItem>
         </React.Fragment>
+      ))}
+    </List>
+    <Box>
+        Total winning amount: {totalWin}, Total lost amount: {totalLost}
+    </Box>
+    <List>
+      {
+        transfer.map((t: string) => (
+          <ListItem>
+            <ListItemText primary={t} />
+          </ListItem>
       ))}
     </List>
     </>
