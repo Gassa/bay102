@@ -6,11 +6,33 @@ import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { computeTransfer } from '../utils/helper'
+import * as _ from 'lodash';
 
-export type PlayerRecord = { [key: string]: string | number }
+export class PlayerRecord {
+  room_id: number;
+  player_id: number;
+  buy_in: number;
+  cash_out: number;
+  chips_amount: number;
+  balance: number;
+  player_name: string;
+  aplace_holder: string;
 
+  constructor(room_id: number, player_id: number, player_name: string, buy_in: number, cash_out: number, chips_amount: number, balance: number) {
+    this.room_id = room_id;
+    this.player_id = player_id;
+    this.player_name = player_name;
+    this.buy_in = buy_in;
+    this.cash_out = cash_out;
+    this.chips_amount = chips_amount;
+    this.balance = balance;
+    this.aplace_holder = "";
+  }
 
-type PlayerRecordMap = { [key: number]: PlayerRecord }
+  getBalance(): number {
+    return this.balance;
+  }
+}
 
 interface Player {
   id: number,
@@ -18,44 +40,31 @@ interface Player {
 }
 
 interface Record {
-  room_id: string,
+  room_id: number,
   player_id: number,
   buy_in: number,
   cash_out: number,
-  chips_amount: number,
-  balance: number
+  chips_amount: number
 }
 
 export default function Result() {
   const { roomId } = useParams();
-  const [records, setRecords] = React.useState<PlayerRecordMap>({});
-  const calculateBalance = (cashOut: number, buyIn: number, amount: number) => { 
-    const b = cashOut - buyIn;
-    return (b * 500) + amount; 
-  }
+  const [records, setRecords] = React.useState<PlayerRecord[]>([]);
 
   const checkBalance = () => {
-    const totalWin = Object.values(records).filter(r => r.balance > 0).map(r => r.balance as number).reduce((acc, cur) => { return acc + cur}, 0)
-    const totalLost = Object.values(records).filter(r => r.balance < 0).map(r => r.balance as number).reduce((acc, cur) => { return acc + cur}, 0)
+    const totalWin = _.map(_.filter(records, (r: PlayerRecord) => r.balance > 0), (item: PlayerRecord)=> item.balance as number).reduce((acc, cur) => { return acc + cur}, 0)
+    const totalLost = _.map(_.filter(records, (r: PlayerRecord) => r.balance < 0), (item: PlayerRecord)=> item.balance as number).reduce((acc, cur) => { return acc + cur}, 0) 
     return { totalWin: totalWin, totalLost: totalLost * (-1)};
   }
 
   React.useEffect(() => {
     axios('/backend/players').then(res => {
-      const result1 = res.data.reduce((acc: { [key: number]: string }, cur: Player) => { return Object.assign(acc, { [cur.id]: cur.name }) }, {}) 
+      const result1 = _.mapValues(_.keyBy<Player>(res.data, 'id'), (cur: Player) => { return cur.name })
       axios(`/backend/records?roomId=${roomId}`).then(res => {
-        const result2: PlayerRecordMap = res.data.reduce((acc: { [key: number]: PlayerRecord }, item: Record) => {
-          return Object.assign(acc, { 
-            [item.player_id]: { 
-              "player_id": item.player_id, 
-              "player_name": result1[item.player_id], 
-              "buy_in": item.buy_in, 
-              "cash_out": item.cash_out, 
-              "chips_amount": item.chips_amount,
-              "balance": calculateBalance((item.cash_out as number), (item.buy_in as number), (item.chips_amount as number)) 
-            } })
-        }, {})
-        setRecords(result2); 
+        const result2 = _.map(res.data, (item: Record) => {
+          return new PlayerRecord(item.room_id, item.player_id, result1[item.player_id], item.buy_in, item.cash_out, item.chips_amount, (item.cash_out - item.buy_in) * 500 + item.chips_amount);
+        })
+        setRecords(result2);
       })
     })
     .catch(rejected => {
@@ -64,31 +73,31 @@ export default function Result() {
   }, [roomId]);
 
   const { totalWin, totalLost } = checkBalance();
-  const transfer = computeTransfer(Object.values(records));
+  const transfer = computeTransfer(records);
+  
   return (
     <>
     <List>
-      {Object.values(records!).map((item: PlayerRecord) => (
-        <React.Fragment key={item.player_id}>
-          <ListItem>
+      { _.map(records, (item: PlayerRecord) => { 
+        return (
+          <ListItem key={item.player_id}>
             <ListItemText 
               primary={item.player_name} 
-              secondary={`Result: ${(item.cash_out as number) - (item.buy_in as number)} * 500 + ${item.chips_amount} = ${item.balance}`} 
+              secondary={`Result: ${item.cash_out - item.buy_in} * 500 + ${item.chips_amount} = ${(item.cash_out - item.buy_in) * 500 + item.chips_amount}`} 
             />
           </ListItem>
-        </React.Fragment>
-      ))}
+      )})}
     </List>
     <Box>
         Total winning amount: {totalWin}, Total lost amount: {totalLost}
     </Box>
     <List>
       {
-        transfer.map((t: string) => (
-          <ListItem>
-            <ListItemText primary={t} />
+        _.map(transfer, (value: string, idx: number) => { return (
+          <ListItem key={idx}>
+            <ListItemText primary={value} />
           </ListItem>
-      ))}
+      )})}
     </List>
     </>
   )

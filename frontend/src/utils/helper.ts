@@ -1,6 +1,13 @@
 import { PlayerRecord } from "../pages/Result";
+import * as _ from 'lodash';
 
 export function computeTransfer(records: PlayerRecord[]): string[] {
+  console.log(records);
+  console.log(records[0]?.balance)
+  _.map(records, (r: PlayerRecord) => {
+    console.log(`${r.player_name}: ${r.balance}, ${typeof r.balance}`);
+    return ""
+  })
   let winners = records
     .filter((r) => r.balance > 0)
     .sort((a, b) => (a.balance as number) - (b.balance as number));
@@ -16,12 +23,12 @@ export function computeTransfer(records: PlayerRecord[]): string[] {
     return acc + (item.balance as number);
   }, 0);
 
-  console.log(winners);
-  console.log(losers);
+  // console.log(winners);
+  // console.log(losers);
 
   let result: string[] = [];
 
-  console.log(`win: ${totalWin}, lose: ${totalLose}`);
+  // console.log(`win: ${totalWin}, lose: ${totalLose}`);
 
   if (totalWin > totalLose) {
     console.log(`diff: ${totalWin - totalLose}`);
@@ -29,8 +36,8 @@ export function computeTransfer(records: PlayerRecord[]): string[] {
       (winners[winners.length - 1].balance as number) - (totalWin - totalLose);
   }
 
-  console.log(winners);
-  console.log(losers);
+  // console.log(winners);
+  // console.log(losers);
 
   while (winners.length > 0 && losers.length > 0) {
     let w = winners[winners.length - 1];
@@ -46,11 +53,11 @@ export function computeTransfer(records: PlayerRecord[]): string[] {
       losers.pop();
       winners.pop();
     } else if (w.balance > l.balance) {
-      winners[winners.length - 1].balance = (w.balance as number) - (l.balance as number);
+      winners[winners.length - 1].balance = w.balance - l.balance;
       result.push(`${l.player_name} to ${w.player_name}, $${l.balance / 100}`);
       losers.pop();
     } else {
-      losers[losers.length - 1].balance = (l.balance as number) - (w.balance as number);
+      losers[losers.length - 1].balance = l.balance - w.balance;
       result.push(`${l.player_name} to ${w.player_name}, $${(w.balance as number)/ 100}`);
       winners.pop();
     }

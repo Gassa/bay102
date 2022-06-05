@@ -16,6 +16,7 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "axios": "^0.27.2",
+    "lodash": "^4.17.21",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
@@ -48,5 +49,7 @@
     ]
   },
   "proxy": "http://127.0.0.1:10000",
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/lodash": "^4.14.182"
+  }
 }
