@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-import { ConfirmationDialogRaw } from "./components/InputChipsDialog";
+import { InputChipsAmountDialog } from "./components/InputChipsDialog";
 import { PlayerRecord, RawRecord, Player } from '../models'
 
 import * as _ from 'lodash';
@@ -156,7 +156,7 @@ export default function Room() {
           </React.Fragment>
         ))}
       </List>
-      <ConfirmationDialogRaw
+      <InputChipsAmountDialog
         id="ringtone-menu"
         keepMounted
         open={inputDialogOpen}
