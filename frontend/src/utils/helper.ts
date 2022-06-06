@@ -1,5 +1,6 @@
-import { PlayerRecord } from "../pages/Result";
 import * as _ from 'lodash';
+
+import { PlayerRecord } from '../models';
 
 export function computeTransfer(records: PlayerRecord[]): string[] {
   console.log(records);
