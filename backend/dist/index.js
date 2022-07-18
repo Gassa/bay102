@@ -33,8 +33,6 @@ const routers_1 = require("./routers");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
-console.log(__dirname);
-console.log(path.join(__dirname + '../../frontend/build'));
 app.use(express_1.default.static(path.join(__dirname + './../../frontend/build')));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));

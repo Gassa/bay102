@@ -40,7 +40,6 @@ export function listRooms(page: number = 0, limit: number = 10, all: boolean = f
             return new DbError(error.message);
           });
       } else {
-        console.log(`SELECT * FROM rooms ORDER BY id OFFSET ${(page-1)*limit} LIMIT ${limit};`)
         return client.query("SELECT * FROM rooms ORDER BY id OFFSET $1 LIMIT $2;", [(page - 1) * limit, limit])
           .then(res => {
             client.release();

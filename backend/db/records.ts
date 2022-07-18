@@ -15,7 +15,6 @@ export function addPlayerRecord(roomId: number, playerId: number): Promise<strin
       return client
         .query("INSERT INTO player_records(room_id, player_id, buy_in, cash_out, chips_amount) VALUES ($1, $2, $3, $4, $5);", [roomId, playerId, 1, 0, 0])
         .then(res => {
-          console.log(res);
           client.release();
           if (res.rowCount == 1) {
             return "DONE";
@@ -63,7 +62,6 @@ function updateRecord(roomId: number, playerId: number, updatedField: string, up
       return client.query(sql, [updatedValue, roomId, playerId])
         .then(res => {
           client.release();
-          console.log(res)
           if (res.rowCount == 1) {
             return "DONE";
           } else {
